@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using VolunteerMS.Models;
 
 namespace VolunteerMS.Data;
 
@@ -14,4 +15,13 @@ public class AppDbContext : DbContext
     //
     // public DbSet<Volunteer> Volunteers => Set<Volunteer>();
     // ...
+
+    public DbSet<User> Users => Set<User>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Username)
+            .IsUnique();
+    }
 }
