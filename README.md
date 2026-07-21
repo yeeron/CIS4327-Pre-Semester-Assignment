@@ -12,16 +12,18 @@ See `docs/project-plan.md` for the full technical plan, role split, and timeline
 
 ## Getting started
 
-Prereq: [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+Prereqs: [Git](https://git-scm.com/downloads) and the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+
 
 ```bash
-git clone <repo-url>
-cd vms
+git clone https://github.com/yeeron/CIS4327-Pre-Semester-Assignment.git
+cd CIS4327-Pre-Semester-Assignment
 dotnet restore
 dotnet tool install --global dotnet-ef   # once, if you don't have it
-dotnet ef database update --project VolunteerMS   # creates vms.db (once migrations exist)
+dotnet ef database update --project VolunteerMS   # creates vms.db. SKIP until migration #1 is merged
 dotnet run --project VolunteerMS
 ```
+Then open the localhost URL it prints. Stop the app with Ctrl+C.
 
 The SQLite database (`vms.db`) is git-ignored — everyone generates their own from migrations. Never commit it.
 
