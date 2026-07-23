@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using VolunteerMS.Data;
 using VolunteerMS.Models;
@@ -38,6 +39,11 @@ namespace VolunteerMS.Controllers
             //can do more here to deny access if needed.
         }
 
+        /// <summary>
+        /// Claim the user ident, sets a cookie for the user login with identifying information, and returns a redirect to the home page.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         private async Task<IActionResult> ClaimUser(User user)
         {
             var claims = new List<Claim>
@@ -62,7 +68,7 @@ namespace VolunteerMS.Controllers
         public async Task<IActionResult> Login(string username, string password)
         {
 
-            var user = _context.Users.FirstOrDefault(u => u.Username == username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
 
             // is invalid user?
