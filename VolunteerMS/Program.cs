@@ -22,6 +22,13 @@ builder.Services
 
 var app = builder.Build();
 
+// Apply migrations + seed baseline data on startup.
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<VolunteerMS.Data.AppDbContext>();
+    VolunteerMS.Data.DbSeeder.Seed(db);
+}
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
