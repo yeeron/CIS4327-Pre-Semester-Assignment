@@ -15,7 +15,7 @@ namespace VolunteerMS.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "10.0.9");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.10");
 
             modelBuilder.Entity("VolunteerMS.Models.Center", b =>
                 {
@@ -30,7 +30,7 @@ namespace VolunteerMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Centers");
+                    b.ToTable("Centers", (string)null);
                 });
 
             modelBuilder.Entity("VolunteerMS.Models.Opportunity", b =>
@@ -72,7 +72,7 @@ namespace VolunteerMS.Migrations
 
                     b.HasIndex("CenterId");
 
-                    b.ToTable("Opportunities");
+                    b.ToTable("Opportunities", (string)null);
                 });
 
             modelBuilder.Entity("VolunteerMS.Models.Skill", b =>
@@ -88,7 +88,7 @@ namespace VolunteerMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skills");
+                    b.ToTable("Skills", (string)null);
                 });
 
             modelBuilder.Entity("VolunteerMS.Models.User", b =>
@@ -114,7 +114,7 @@ namespace VolunteerMS.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("VolunteerMS.Models.Volunteer", b =>
@@ -198,7 +198,7 @@ namespace VolunteerMS.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Volunteers");
+                    b.ToTable("Volunteers", (string)null);
                 });
 
             modelBuilder.Entity("VolunteerMS.Models.VolunteerCenter", b =>
@@ -213,7 +213,7 @@ namespace VolunteerMS.Migrations
 
                     b.HasIndex("CenterId");
 
-                    b.ToTable("VolunteerCenters");
+                    b.ToTable("VolunteerCenters", (string)null);
                 });
 
             modelBuilder.Entity("VolunteerMS.Models.VolunteerOpportunity", b =>
@@ -231,7 +231,7 @@ namespace VolunteerMS.Migrations
 
                     b.HasIndex("OpportunityId");
 
-                    b.ToTable("VolunteerOpportunities");
+                    b.ToTable("VolunteerOpportunities", (string)null);
                 });
 
             modelBuilder.Entity("VolunteerMS.Models.VolunteerSkill", b =>
@@ -246,7 +246,7 @@ namespace VolunteerMS.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("VolunteerSkills");
+                    b.ToTable("VolunteerSkills", (string)null);
                 });
 
             modelBuilder.Entity("VolunteerMS.Models.Opportunity", b =>

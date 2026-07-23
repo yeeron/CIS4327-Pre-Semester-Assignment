@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+<form asp-controller="Account" asp-action="Login" method="post">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <label for="username">Username</label>
+        <input type="text"
+               id="username"
+               name="username"
+               required />
+    </div>
+
+    <div>
+        <label for="password">Password</label>
+        <input type="password"
+               id="password"
+               name="password"
+               required />
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div>
+            @Html.ValidationSummary()
+        </div>
+    }
+
+    <button type="submit">Login</button>
+
+</form>
