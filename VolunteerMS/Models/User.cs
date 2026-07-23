@@ -8,7 +8,8 @@ public enum UserRole
     Volunteer = 1
 }
 
-// will finish soonTM
+// Login identity. Admins log in; volunteers have a User row (the spec gives
+// volunteer profiles username/password fields) but never log in — login checks Role == Admin.
 public class User
 {
     public int Id { get; set; }
@@ -20,4 +21,7 @@ public class User
     public string PasswordHash { get; set; } = string.Empty;
 
     public UserRole Role { get; set; }
+
+    // 1:1 back-reference to a volunteer profile, if this user is a volunteer.
+    public Volunteer? Volunteer { get; set; }
 }
