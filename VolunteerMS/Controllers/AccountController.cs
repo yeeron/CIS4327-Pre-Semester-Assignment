@@ -16,11 +16,13 @@ namespace VolunteerMS.Controllers
 
         private readonly AppDbContext _context;
         private readonly PasswordHasher<User> _pwHasher;
+        private readonly IWebHostEnvironment _env;
 
-        public AccountController(AppDbContext context)
+        public AccountController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
             _pwHasher = new PasswordHasher<User>();
+            _env = env;
         }
         
         /// Returns the login page for the user to enter their credentials.
@@ -82,6 +84,35 @@ namespace VolunteerMS.Controllers
 
            
             return await ClaimUser(user);
+        }
+
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
+        }
+
+        /// <summary>
+        /// DEVELOPMENT TEST ONLY: Adds a user to the database with username "admin" and password "password". Only works in development environment.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> TestAddUser()
+        {
+            if(this._env.IsDevelopment()) {
+                var user = new User
+                {
+                    Username = "admin",
+                    Role = UserRole.Admin
+                };
+                user.PasswordHash = _pwHasher.HashPassword(user, "password");
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                return Content("User added");
+            }
+
+            return Content("403 Forbidden");
         }
     }
 }

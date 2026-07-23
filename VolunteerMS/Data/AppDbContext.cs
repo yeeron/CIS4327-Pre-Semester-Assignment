@@ -62,22 +62,5 @@ public class AppDbContext : DbContext
             .WithMany(v => v.VolunteerOpportunities)
             .HasForeignKey(vo => vo.VolunteerId)
             .OnDelete(DeleteBehavior.Cascade);
-
-
-        //single seed for the team
-
-        var hasher = new PasswordHasher<User>();
-
-        var user = new User
-        {
-            Id = 1,
-            Username = "admin",
-            Role = UserRole.Admin
-        };
-
-        string hash = hasher.HashPassword(user, "Testing!!");
-        user.PasswordHash = hash;
-
-        modelBuilder.Entity<User>().HasData(user);
     }
 }
