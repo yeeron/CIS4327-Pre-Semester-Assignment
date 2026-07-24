@@ -16,13 +16,11 @@ namespace VolunteerMS.Controllers
 
         private readonly AppDbContext _context;
         private readonly PasswordHasher<User> _pwHasher;
-        private readonly IWebHostEnvironment _env;
 
-        public AccountController(AppDbContext context, IWebHostEnvironment env)
+        public AccountController(AppDbContext context)
         {
             _context = context;
             _pwHasher = new PasswordHasher<User>();
-            _env = env;
         }
         
         /// Returns the login page for the user to enter their credentials.
@@ -52,6 +50,7 @@ namespace VolunteerMS.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -82,6 +81,13 @@ namespace VolunteerMS.Controllers
                 return View();
             }
 
+             // volunteers have User rows but are not allowed to log in
+            if (user.Role != UserRole.Admin)
+            {
+                DenyAccess();
+                return View();
+            }
+
            
             return await ClaimUser(user);
         }
@@ -93,26 +99,6 @@ namespace VolunteerMS.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        /// <summary>
-        /// DEVELOPMENT TEST ONLY: Adds a user to the database with username "admin" and password "password". Only works in development environment.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> TestAddUser()
-        {
-            if(this._env.IsDevelopment()) {
-                var user = new User
-                {
-                    Username = "admin",
-                    Role = UserRole.Admin
-                };
-                user.PasswordHash = _pwHasher.HashPassword(user, "password");
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-                return Content("User added");
-            }
-
-            return Content("403 Forbidden");
-        }
+        
     }
 }
