@@ -1,0 +1,45 @@
+@model IEnumerable<VolunteerMS.Models.Opportunity>
+
+@{
+    ViewData["Title"] = "Opportunities Page";
+}
+
+<h1>Opportunities</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add Opportunity</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Center</th>
+            <th>Start Date</th>
+            <th>Needed</th>
+            <th>Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    @foreach (var opportunity in Model)
+    {
+        <tr>
+            <td>@opportunity.Name</td>
+            <td>@opportunity.Center?.Name</td>
+            <td>@opportunity.StartDate.ToShortDateString()</td>
+            <td>@opportunity.VolunteersNeeded</td>
+            <td>@opportunity.IsActive</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@opportunity.Id" class="btn btn-warning btn-sm">
+                    Edit
+                </a>
+                <a asp-action="Delete" asp-route-id="@opportunity.Id" class="btn btn-danger btn-sm">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

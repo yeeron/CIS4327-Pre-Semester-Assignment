@@ -31,7 +31,7 @@ public class Opportunity
 
     // --- Owning center (required) ---
     public int CenterId { get; set; }
-    public Center Center { get; set; } = null!;
+    public Center? Center { get; set; }
 
     // --- Matched volunteers ---
     public ICollection<VolunteerOpportunity> VolunteerOpportunities { get; set; } = new List<VolunteerOpportunity>();
