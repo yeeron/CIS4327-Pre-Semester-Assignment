@@ -9,7 +9,7 @@ public enum ApprovalStatus
     Disapproved = 2
 }
 
-// Volunteer profile. Credentials live on the linked <see cref="User"/> row (1:1).
+// Volunteer profile. Credentials live on the linked User row (1:1).
 // ApprovalStatus and IsActive are independent: an Approved volunteer can become Inactive.
 // Only FirstName/LastName/Email are required here; username/password are required on User.
 public class Volunteer

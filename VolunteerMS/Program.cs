@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
-// Simple cookie auth — one admin login, no ASP.NET Identity (see project plan)
+// Simple cookie auth — one admin login
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -21,6 +21,13 @@ builder.Services
     });
 
 var app = builder.Build();
+
+// Apply migrations + seed baseline data on startup.
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<VolunteerMS.Data.AppDbContext>();
+    VolunteerMS.Data.DbSeeder.Seed(db);
+}
 
 if (!app.Environment.IsDevelopment())
 {
