@@ -20,10 +20,11 @@ git clone https://github.com/yeeron/CIS4327-Pre-Semester-Assignment.git
 cd CIS4327-Pre-Semester-Assignment
 dotnet restore
 dotnet tool install --global dotnet-ef   # once, if you don't have it
-dotnet ef database update --project VolunteerMS   # creates vms.db. SKIP until migration #1 is merged
+dotnet ef database update --project VolunteerMS   # creates vms.db. 
 dotnet run --project VolunteerMS
 ```
 Then open the localhost URL it prints. Stop the app with Ctrl+C.
+Admin username / password: admin / Admin2
 
 The SQLite database (`vms.db`) is git-ignored — everyone generates their own from migrations. Never commit it.
 
@@ -39,3 +40,9 @@ The assignment allows assumptions about missing requirements. We document every 
 - Volunteers do not log in; the username/password fields on a volunteer profile are data managed by the admin.
 - "Volunteer opportunity matches" are created manually by the admin (assign/remove). *(May upgrade to criteria-based auto-matching if time allows.)*
 - (add more as decided)
+- Inactive is a separate flag from approval status (spec filters on it but never lists it as a profile field)
+- Volunteer address stored as a single free-text field (spec doesn't call for structured components)
+- Opportunity fields were inferred — the spec never lists them; "Most Recent 60 days" filters on creation date
+- Delete Opportunity is a hard delete that cascades to its matches
+- Matches are created manually by the admin
+- Volunteers have login records but never log in
