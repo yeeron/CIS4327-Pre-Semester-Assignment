@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using VolunteerMS.Data;
 
@@ -19,6 +20,12 @@ builder.Services
         options.AccessDeniedPath = "/Account/Login";
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
     });
+
+//kick back all users to the login page
+builder.Services.AddAuthorization(authOptions =>
+{
+    authOptions.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+});
 
 var app = builder.Build();
 
