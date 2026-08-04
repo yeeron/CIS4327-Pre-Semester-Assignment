@@ -35,6 +35,8 @@ public class OpportunitiesController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
+
     public async Task<IActionResult> Create(Opportunity opportunity)
     {
         if (!ModelState.IsValid)
@@ -80,6 +82,8 @@ public class OpportunitiesController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
+
     public async Task<IActionResult> Edit(int id, Opportunity opportunity)
     {
         if (id != opportunity.Id)
@@ -98,7 +102,20 @@ public class OpportunitiesController : Controller
             return View(opportunity);
         }
 
-        _context.Update(opportunity);
+        var existingOpportunity = await _context.Opportunities.FindAsync(id);
+
+        if (existingOpportunity == null)
+            {
+                return NotFound();
+            }
+
+        existingOpportunity.Name = opportunity.Name;
+        existingOpportunity.Description = opportunity.Description;
+        existingOpportunity.StartDate = opportunity.StartDate;
+        existingOpportunity.Location = opportunity.Location;
+        existingOpportunity.VolunteersNeeded = opportunity.VolunteersNeeded;
+        existingOpportunity.CenterId = opportunity.CenterId;
+
         await _context.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index));
