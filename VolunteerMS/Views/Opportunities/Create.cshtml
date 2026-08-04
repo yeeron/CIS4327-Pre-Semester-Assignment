@@ -1,0 +1,56 @@
+@model VolunteerMS.Models.Opportunity
+
+@{
+    ViewData["Title"] = "Create Opportunity Page";
+}
+
+<h1>Create Opportunity</h1>
+
+<form asp-action="Create" method="post">
+    
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="StartDate" class="form-label"></label>
+        <input asp-for="StartDate" type="date" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Location" class="form-label"></label>
+        <input asp-for="Location" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="VolunteersNeeded" class="form-label"></label>
+        <input asp-for="VolunteersNeeded" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CenterId" class="form-label">Center</label>
+        <select asp-for="CenterId"
+                asp-items="ViewBag.Centers"
+                class="form-select">
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Save
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>
