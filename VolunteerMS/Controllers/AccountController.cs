@@ -60,7 +60,7 @@ namespace VolunteerMS.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         // Logs in the user and validates them. Gives back a cookie to their system to allow them to access other pages in the system.

@@ -1,0 +1,58 @@
+@model VolunteerMS.Models.ViewModels.Center.CenterEditVM
+
+@{
+    ViewData["Title"] = "Edit Center";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h3>Edit Center</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Edit">
+
+                <input asp-for="Id" type="hidden"/>
+                <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="Name"
+                           class="form-label"></label>
+
+                    <input asp-for="Name"
+                           class="form-control"/>
+
+                    <span asp-validation-for="Name"
+                          class="text-danger"></span>
+
+                </div>
+
+                <button class="btn btn-primary">
+                    Update
+                </button>
+
+                <a href="@(ViewBag.ReturnUrl ?? Url.Action(action: "Index"))"
+                    class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
+}

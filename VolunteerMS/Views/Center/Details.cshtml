@@ -1,0 +1,80 @@
+@using System.ComponentModel.Design
+@model VolunteerMS.Models.ViewModels.Center.CenterDetailsVM
+
+@{
+    ViewData["Title"] = "Center Details";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h3>@Model.Name</h3>
+        </div>
+
+        <div class="card-body">
+
+            <dl class="row">
+
+                <dt class="col-sm-3">
+                    Volunteers
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.VolunteerCount
+                </dd>
+
+                <dt class="col-sm-3">
+                    Opportunities
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.OpportunityCount
+                </dd>
+
+            </dl>
+
+            @if(Model.Opportunities.Any())
+            {
+                <hr/>
+
+                <h5>Opportunity List</h5>
+
+                <ul>
+
+                    @foreach(var opportunity in Model.Opportunities)
+                    {
+                        <li>
+                            @opportunity.Name
+
+                            <span class="badge ms-2
+                            @(opportunity.IsActive == true ? "bg-success" :
+                            opportunity.IsActive == false ? "bg-secondary" :"bg-danger")">
+                                
+                                @(opportunity.IsActive == true ? "Active": "Inactive")
+
+                            </span>
+                        </li>
+                        
+                    }
+
+                </ul>
+            }
+
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn btn-warning">
+                Edit
+            </a>
+
+             <a href="@(ViewBag.ReturnUrl ?? Url.Action(action: "Index"))"
+                class="btn btn-secondary">
+                Back
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

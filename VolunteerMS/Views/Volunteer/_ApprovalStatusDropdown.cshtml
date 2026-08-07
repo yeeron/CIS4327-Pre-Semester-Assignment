@@ -1,0 +1,146 @@
+@model VolunteerMS.Models.ViewModels.Volunteer.VolunteerListVM
+
+<div class="dropdown">
+
+    <button class="btn btn-sm dropdown-toggle
+        @(Model.ApprovalStatus == ApprovalStatus.Approved ? "btn-success" :
+            Model.ApprovalStatus == ApprovalStatus.Pending ? "btn-warning" :
+            Model.ApprovalStatus == ApprovalStatus.Disapproved ? "btn-danger" :
+            "btn-light")"
+
+            type="button"
+            data-bs-toggle="dropdown">
+
+        @Model.ApprovalStatus
+
+    </button>
+
+    <ul class="dropdown-menu">
+
+        @if (Model.ApprovalStatus == ApprovalStatus.Pending)
+        {
+            <li>
+                <form asp-action="Approve"
+                    asp-route-id="@Model.Id"
+                    method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="dropdown-item">
+
+                        <i class="bi bi-check-circle text-success"></i>
+
+                        Approve
+
+                    </button>
+
+                </form>
+            </li>
+
+            <li>
+                <form asp-action="Disapprove"
+                    asp-route-id="@Model.Id"
+                    method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="dropdown-item">
+
+                        <i class="bi bi-x-circle text-danger"></i>
+
+                        Disapprove
+
+                    </button>
+
+                </form>
+            </li>
+        }
+
+        @if (Model.ApprovalStatus == ApprovalStatus.Approved)
+        {
+            <li>
+                <form asp-action="Disapprove"
+                    asp-route-id="@Model.Id"
+                    method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="dropdown-item">
+
+                        <i class="bi bi-pause-circle text-danger"></i>
+
+                        Disapprove
+
+                    </button>
+
+                </form>
+            </li>
+
+            <li>
+                <form asp-action="Pending"
+                    asp-route-id="@Model.Id"
+                    method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="dropdown-item">
+
+                        <i class="bi bi-check-circle text-warning"></i>
+
+                        Pending
+
+                    </button>
+
+                </form>
+            </li>
+        }
+
+        @if (Model.ApprovalStatus == ApprovalStatus.Disapproved)
+        {
+            <li>
+                <form asp-action="Approve"
+                    asp-route-id="@Model.Id"
+                    method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="dropdown-item">
+
+                        <i class="bi bi-check-circle text-success"></i>
+
+                        Approve
+
+                    </button>
+
+                </form>
+            </li>
+
+            <li>
+                <form asp-action="Pending"
+                    asp-route-id="@Model.Id"
+                    method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="dropdown-item">
+
+                        <i class="bi bi-check-circle text-warning"></i>
+
+                        Pending
+
+                    </button>
+
+                </form>
+            </li>
+
+        }
+
+    </ul>
+
+</div>

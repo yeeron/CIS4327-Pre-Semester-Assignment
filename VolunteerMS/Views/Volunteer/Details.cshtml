@@ -1,0 +1,223 @@
+@model VolunteerMS.Models.ViewModels.Volunteer.VolunteerDetailsVM
+
+@{
+    ViewData["Title"] = "Volunteer Details";
+}
+
+<h2 class="mb-4">Volunteer Details</h2>
+
+<div class="card shadow-sm">
+
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">@Model.FirstName @Model.LastName</h4>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <strong>Username</strong><br />
+                @Model.Username
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Approval Status</strong><br />
+
+                @switch (Model.ApprovalStatus)
+                {
+                    case VolunteerMS.Models.ApprovalStatus.Approved:
+                        <span class="badge bg-success">Approved</span>
+                        break;
+
+                    case VolunteerMS.Models.ApprovalStatus.Pending:
+                        <span class="badge bg-warning text-dark">Pending</span>
+                        break;
+
+                    case VolunteerMS.Models.ApprovalStatus.Disapproved:
+                        <span class="badge bg-danger">Disapproved</span>
+                        break;
+                }
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Email</strong><br />
+                @Model.Email
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Phone</strong><br />
+                @Model.CellPhone
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <strong>Address</strong><br />
+                @Model.Address
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Education</strong><br />
+                @Model.EducationalBackground
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Availability</strong><br />
+                @Model.Availability
+            </div>
+
+        </div>
+
+        <hr />
+
+        <h5>Emergency Contact</h5>
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <strong>Name</strong><br />
+                @Model.EmergencyContactName
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Phone</strong><br />
+                @Model.EmergencyContactPhone
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Email</strong><br />
+                @Model.EmergencyContactEmail
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Address</strong><br />
+                @Model.EmergencyContactAddress
+            </div>
+
+        </div>
+
+        <hr />
+
+        <h5>Documents</h5>
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <strong>Driver License</strong><br />
+
+                @if (Model.DriverLicenseOnFile)
+                {
+                    <span class="badge bg-success">On File</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Not On File</span>
+                }
+
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Social Security Card</strong><br />
+
+                @if (Model.SSCardOnFile)
+                {
+                    <span class="badge bg-success">On File</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Not On File</span>
+                }
+
+            </div>
+
+        </div>
+
+        <hr />
+
+        <div class="row">
+
+            <div class="col-md-4">
+
+                <h5>Skills</h5>
+
+                @if (Model.Skills.Any())
+                {
+                    <ul class="list-group">
+
+                        @foreach (var skill in Model.Skills)
+                        {
+                            <li class="list-group-item">@skill</li>
+                        }
+
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">No skills assigned.</p>
+                }
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h5>Preferred Centers</h5>
+
+                @if (Model.Centers.Any())
+                {
+                    <ul class="list-group">
+
+                        @foreach (var center in Model.Centers)
+                        {
+                            <li class="list-group-item">@center</li>
+                        }
+
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">No preferred centers.</p>
+                }
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h5>Matched Opportunities</h5>
+
+                @if (Model.Opportunities.Any())
+                {
+                    <ul class="list-group">
+
+                        @foreach (var opportunity in Model.Opportunities)
+                        {
+                            <li class="list-group-item">@opportunity</li>
+                        }
+
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">No matched opportunities.</p>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card-footer">
+
+        <a asp-action="Edit"
+           asp-route-id="@Model.Id"
+           class="btn btn-warning">
+            Edit
+        </a>
+
+        <a href="@(ViewBag.ReturnUrl ?? Url.Action(action: "Index"))"
+            class="btn btn-secondary">
+            Back to List
+        </a>
+
+    </div>
+
+</div>
