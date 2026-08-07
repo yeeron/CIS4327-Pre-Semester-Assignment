@@ -201,33 +201,42 @@ public class VolunteerController : BaseController
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Approve(int id)
+    public async Task<IActionResult> Approve(int id, string? returnUrl)
     {
         await _volunteerService.ApproveAsync(id);
 
         SetSuccessMessage("Volunteer approved.");
 
+        if (!string.IsNullOrEmpty(returnUrl))
+        return Redirect(returnUrl);
+
         return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Disapprove(int id)
+    public async Task<IActionResult> Disapprove(int id, string? returnUrl)
     {
         await _volunteerService.DisapproveAsync(id);
 
         SetSuccessMessage("Volunteer disapproved.");
 
+        if (!string.IsNullOrEmpty(returnUrl))
+        return Redirect(returnUrl);
+
         return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Pending(int id)
+    public async Task<IActionResult> Pending(int id, string? returnUrl)
     {
         await _volunteerService.PendingAsync(id);
 
         SetSuccessMessage("Volunteer set to pending.");
+
+        if (!string.IsNullOrEmpty(returnUrl))
+        return Redirect(returnUrl);
 
         return RedirectToAction(nameof(Index));
     }
