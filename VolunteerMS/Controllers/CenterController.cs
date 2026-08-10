@@ -30,14 +30,12 @@ public class CenterController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CenterCreateVM model)
     {
-        Console.WriteLine("STEP Create 1");
 
         if (!ModelState.IsValid)
             return View(model);
 
         bool created = await _centerService.CreateAsync(model);
 
-        Console.WriteLine("STEP Create 2");
 
         if (!created)
         {
@@ -69,11 +67,9 @@ public class CenterController : BaseController
         if (!ModelState.IsValid)
             return View(model);
 
-        Console.WriteLine("STEP 1");
 
         bool updated = await _centerService.UpdateAsync(model);
 
-        Console.WriteLine("STEP 2");
 
         if (!updated)
         {
@@ -86,8 +82,6 @@ public class CenterController : BaseController
          if (!string.IsNullOrEmpty(returnUrl))
             return Redirect(returnUrl);
         
-        Console.WriteLine("STEP 3");
-
         return RedirectToAction(nameof(Index));
     }
 
