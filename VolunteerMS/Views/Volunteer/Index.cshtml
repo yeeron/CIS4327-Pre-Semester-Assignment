@@ -1,0 +1,180 @@
+@model VolunteerMS.Models.ViewModels.Volunteer.VolunteerIndexVM
+
+@{
+    ViewData["Title"] = "Manage Volunteers";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-4">Manage Volunteers</h2>
+
+    <!--DashBoard-->
+    <a asp-controller="Dashboard" asp-action="Index"
+        class="btn btn-secondary">
+        Dashboard
+    </a>
+
+    <!-- Add Volunteer -->
+    <div class="col-md-3 text-end">
+        <a asp-action="Create"
+            class="btn btn-success w-100">
+            Add New Volunteer
+        </a>
+    </div>
+    
+</div>
+
+<form id="searchForm" asp-action="Index" method="get">
+
+    <div class="row mb-4">
+
+        <!-- Search Box -->
+        <div class="col-md-3">
+            <input asp-for="SearchTerm"
+                   class="form-control"
+                   placeholder="Search volunteers..." />
+        </div>
+
+        <!-- Filter -->
+        <div class="col-md-3">
+            <select id="filterSelect"
+                    asp-for="Filter"
+                    asp-items="Html.GetEnumSelectList<VolunteerMS.Utilities.VolunteerFilter>()"
+                    class="form-select">
+            </select>
+        </div>
+
+        <!-- Search Button -->
+        <div class="col-md-3">
+            <button type="submit"
+                    class="btn btn-primary w-100">
+                Search
+            </button>
+        </div>
+
+        <div class="col-md-3">
+            <a asp-action="Index"
+               class="btn btn-secondary w-100">
+                Clear
+            </a>
+        </div>
+
+    </div>
+
+</form>
+
+<table class="table table-bordered table-striped table-hover">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th style="width:400px;">Actions</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @if (!Model.Volunteers.Any())
+        {
+            <tr>
+                <td colspan="5" class="text-center">
+                    No volunteers found.
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var volunteer in Model.Volunteers)
+            {
+                <tr>
+
+                    <td>@volunteer.FullName</td>
+
+                    <td>@volunteer.Email</td>
+
+                    <td>@volunteer.Phone</td>
+
+                    <td>
+                        <partial name="_ApprovalStatusDropdown" model="volunteer" />
+                    </td>
+
+                    <td>
+
+                        <a asp-action="Details"
+                           asp-route-id="@volunteer.Id"
+                           asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
+                           class="btn btn-info btn-sm">
+                            Details
+                        </a>
+
+                        <a asp-action="Edit"
+                           asp-route-id="@volunteer.Id"
+                           asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
+                           class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+
+                        <a asp-action="Skills"
+                            asp-route-id="@volunteer.Id"
+                            asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
+                            class="btn btn-success btn-sm">
+                            Skills
+                        </a>
+
+                        <a asp-action="Centers"
+                            asp-route-id="@volunteer.Id"
+                            asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
+                            class="btn btn-primary btn-sm">
+                            Centers
+                        </a>
+
+                        <a asp-action="Matches"
+                           asp-route-id="@volunteer.Id"
+                           asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
+                           class="btn btn-secondary btn-sm">
+                            Opportunity Matches
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+        }
+
+    </tbody>
+
+</table>
+
+@section Scripts {
+    <script>
+        const form = document.getElementById("searchForm");
+        const searchInput = document.getElementById("SearchTerm");
+        const filter = document.getElementById("filterSelect");
+
+        let timer;
+
+        searchInput.addEventListener("input", function () {
+            clearTimeout(timer);
+
+            timer = setTimeout(() => {
+                form.submit();
+            }, 500); // Wait 500 ms after the user stops typing
+        });
+
+        filter.addEventListener("change", function () {
+            clearTimeout(timer);
+            form.submit();
+        });
+
+        // Optional: Focus the search input on page load
+        window.addEventListener("load", function () {
+            searchInput.focus();            
+            searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length); // Move cursor to the end of the input
+        });
+
+    </script>
+}

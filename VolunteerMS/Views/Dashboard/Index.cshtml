@@ -1,0 +1,121 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+
+    <div class="text-center mb-5">
+        <h2>Volunteer Management System</h2>
+        <h5 class="text-muted">
+            Welcome, @ViewBag.Username!
+        </h5>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h4>👥 Manage Volunteers</h4>
+
+                    <p>
+                        Add, edit, search, approve and manage volunteers.
+                    </p>
+
+                    <a asp-controller="Volunteer"
+                       asp-action="Index"
+                       class="btn btn-primary">
+
+                        Open
+
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+         <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body disabled">
+
+                    <h4>📅 Manage Opportunities</h4>
+
+                    <p>
+                        Create and manage volunteer opportunities.
+                    </p>
+
+                    <a asp-controller="Opportunities"
+                       asp-action="Index"
+                       class="btn btn-primary">
+
+                        Open
+
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h4>🛠 Manage Skills</h4>
+
+                    <p>
+                        Manage volunteer skills and interests.
+                    </p>
+
+                    <a asp-controller="Skill"
+                       asp-action="Index"
+                       class="btn btn-primary">
+
+                        Open
+
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h4>🏢 Manage Centers</h4>
+
+                    <p>
+                        Manage volunteer work locations.
+                    </p>
+
+                    <a asp-controller="Center"
+                       asp-action="Index"
+                       class="btn btn-primary">
+
+                        Open
+
+                    </a>
+
+                </div>
+            </div>
+        </div>        
+
+    </div>
+
+    <div class="text-center mt-4">
+
+        <a asp-controller="Account"
+           asp-action="Logout"
+           class="btn btn-danger btn-lg">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>

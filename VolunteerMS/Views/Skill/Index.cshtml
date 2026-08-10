@@ -1,0 +1,192 @@
+@model VolunteerMS.Models.ViewModels.Skill.SkillIndexVM
+
+@{
+    ViewData["Title"] = "Skills";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Skills</h2>
+
+        <!--DashBoard-->
+        <a asp-controller="Dashboard" asp-action="Index"
+            class="btn btn-secondary">
+            Dashboard
+        </a>
+
+        <div class="col-md-4">
+            <a asp-action="Create"
+               class="btn btn-success w-100">
+                New Skill
+            </a>
+        </div>
+        
+    </div>
+
+    <form id="searchForm" asp-action="Index" method="get" class="row g-3 mb-4">
+
+        <div class="col-md-8">
+            <input asp-for="SearchTerm"
+                   class="form-control"
+                   placeholder="Search by skill name..." />
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit"
+                    class="btn btn-primary w-100">
+                Search
+            </button>
+        </div>
+
+        <div class="col-md-2">
+            <a asp-action="Index"
+               class="btn btn-secondary w-100">
+                Clear
+            </a>
+        </div>
+
+    </form>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th>Skill</th>
+                        <th class="text-center">Volunteers</th>
+                        <th class="text-center" style="width:180px;">Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                @if (Model.Skills.Any())
+                {
+                    @foreach (var item in Model.Skills)
+                    {
+                        <tr>
+
+                            <td>@item.Name</td>
+
+                            <td class="text-center">
+                                <span class="badge bg-info">
+                                    @item.VolunteerCount
+                                </span>
+                            </td>
+
+                            <td class="text-center">
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+
+                                <form asp-action="Delete"
+                                      asp-route-id="@item.Id"
+                                      method="post"
+                                      class="delete-form d-inline">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="button"
+                                            class="btn btn-danger btn-sm btn-delete"
+                                            data-name="@item.Name"                                           >
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">
+                            No skills found.
+                        </td>
+                    </tr>
+                }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        const form = document.getElementById("searchForm");
+        const searchInput = document.getElementById("SearchTerm");
+
+        let timer;
+    
+        searchInput.addEventListener("input", function () {
+            clearTimeout(timer);
+
+            timer = setTimeout(() => {
+                form.submit();
+            }, 500); // Wait 500 ms after the user stops typing
+        });
+
+        // Optional: Focus the search input on page load
+        window.addEventListener("load", function () {
+            searchInput.focus();
+            searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length); // Move cursor to the end of the input
+        });
+
+        // SweetAlert2 for delete confirmation
+        document.querySelectorAll(".btn-delete").forEach(button => {
+
+            button.addEventListener("click", function () {
+
+                const form = this.closest("form");
+                const skillName = this.dataset.name;
+
+                Swal.fire({
+
+                    title: "Delete Skill?",
+
+                    text: `Are you sure you want to delete ${skillName}?`,
+
+                    icon: "warning",
+
+                    showCancelButton: true,
+
+                    confirmButtonColor: "#dc3545",
+
+                    cancelButtonColor: "#6c757d",
+
+                    confirmButtonText: "Yes, Delete",
+
+                    cancelButtonText: "Cancel"
+
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+
+                        form.submit();
+
+                    }
+
+                });
+
+            });
+
+        });
+              
+    </script>
+}

@@ -1,0 +1,206 @@
+@model VolunteerMS.Models.ViewModels.Volunteer.VolunteerCreateVM
+
+@{
+    ViewData["Title"] = "Add New Volunteer";
+}
+
+<h2 class="mb-4">Add New Volunteer</h2>
+
+<form asp-action="Create" method="post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <!-- Login Information -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Login Information</strong>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Username" class="form-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Personal Information -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Personal Information</strong>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FirstName" class="form-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="LastName" class="form-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Address" class="form-label"></label>
+                <textarea asp-for="Address" class="form-control"></textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Phone Numbers -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Phone Numbers</strong>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="HomePhone" class="form-label"></label>
+                    <input asp-for="HomePhone" class="form-control" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="WorkPhone" class="form-label"></label>
+                    <input asp-for="WorkPhone" class="form-control" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="CellPhone" class="form-label"></label>
+                    <input asp-for="CellPhone" class="form-control" />
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Volunteer Information -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Volunteer Information</strong>
+        </div>
+
+        <div class="card-body">
+
+            <div class="mb-3">
+                <label asp-for="EducationalBackground" class="form-label"></label>
+                <input asp-for="EducationalBackground" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CurrentLicenses" class="form-label"></label>
+                <input asp-for="CurrentLicenses" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Availability" class="form-label"></label>
+                <textarea asp-for="Availability" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ApprovalStatus" class="form-label"></label>
+                <select asp-for="ApprovalStatus"
+                        asp-items="Html.GetEnumSelectList<VolunteerMS.Models.ApprovalStatus>()"
+                        class="form-select">
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Emergency Contact -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Emergency Contact</strong>
+        </div>
+
+        <div class="card-body">
+
+            <div class="mb-3">
+                <label asp-for="EmergencyContactName" class="form-label"></label>
+                <input asp-for="EmergencyContactName" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EmergencyContactPhone" class="form-label"></label>
+                <input asp-for="EmergencyContactPhone" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EmergencyContactEmail" class="form-label"></label>
+                <input asp-for="EmergencyContactEmail" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EmergencyContactAddress" class="form-label"></label>
+                <textarea asp-for="EmergencyContactAddress" class="form-control"></textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Documents -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <strong>Documents</strong>
+        </div>
+
+        <div class="card-body">
+
+            <div class="form-check mb-2">
+                <input asp-for="DriverLicenseOnFile" class="form-check-input" />
+                <label asp-for="DriverLicenseOnFile" class="form-check-label"></label>
+            </div>
+
+            <div class="form-check">
+                <input asp-for="SSCardOnFile" class="form-check-input" />
+                <label asp-for="SSCardOnFile" class="form-check-label"></label>
+            </div>
+
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Save Volunteer
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
