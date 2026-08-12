@@ -1,50 +1,148 @@
-@model IEnumerable<VolunteerMS.Models.Opportunity>
+@model VolunteerMS.Models.ViewModels.Opportunity.OpportunityIndexVM
 
 @{
-    ViewData["Title"] = "Opportunities Page";
+    ViewData["Title"] = "Opportunities";
 }
 
-<h1>Opportunities</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Add Opportunity</a>
-    <!--DashBoard-->
-    <a asp-controller="Dashboard" asp-action="Index"
-        class="btn btn-secondary">
+    <h2 class="mb-4">Manage Opportunities</h2>
+
+    <!-- Dashboard -->
+    <a asp-controller="Dashboard"
+       asp-action="Index"
+       class="btn btn-secondary">
         Dashboard
     </a>
-</p>
 
-<table class="table">
-    <thead>
+    <!-- Add Opportunity -->
+    <div class="col-md-3 text-end">
+        <a asp-action="Create"
+           class="btn btn-success w-100">
+            Add Opportunity
+        </a>
+    </div>
+
+</div>
+
+<form asp-action="Index" method="get">
+
+    <div class="row mb-4">
+
+        <!-- Search -->
+        <div class="col-md-3">
+            <input asp-for="SearchTerm"
+                class="form-control"
+                placeholder="Search opportunities..." />
+        </div>
+
+        <!-- Center Filter -->
+        <div class="col-md-3">
+            <select asp-for="CenterId"
+                    asp-items="Model.Centers"
+                    class="form-select">
+                <option value="">All Centers</option>
+            </select>
+        </div>
+
+        <!-- Recent Filter -->
+        <div class="col-md-2 d-flex align-items-center">
+            <div class="form-check">
+                <input asp-for="RecentOnly"
+                    class="form-check-input" />
+                <label asp-for="RecentOnly"
+                    class="form-check-label">
+                    Most Recent 60 Days
+                </label>
+            </div>
+        </div>
+
+        <!-- Search Button -->
+        <div class="col-md-2">
+            <button type="submit"
+                    class="btn btn-primary w-100">
+                Search
+            </button>
+        </div>
+
+        <!-- Clear -->
+        <div class="col-md-2">
+            <a asp-action="Index"
+            class="btn btn-secondary w-100">
+                Clear
+            </a>
+        </div>
+
+    </div>
+
+</form>
+
+<table class="table table-bordered table-striped table-hover">
+
+    <thead class="table-dark">
         <tr>
             <th>Name</th>
             <th>Center</th>
             <th>Start Date</th>
             <th>Needed</th>
             <th>Active</th>
-            <th>Actions</th>
+            <th style="width: 180px;">Actions</th>
         </tr>
     </thead>
 
     <tbody>
-    @foreach (var opportunity in Model)
-    {
-        <tr>
-            <td>@opportunity.Name</td>
-            <td>@opportunity.Center?.Name</td>
-            <td>@opportunity.StartDate.ToShortDateString()</td>
-            <td>@opportunity.VolunteersNeeded</td>
-            <td>@opportunity.IsActive</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@opportunity.Id" class="btn btn-warning btn-sm">
-                    Edit
-                </a>
-                <a asp-action="Delete" asp-route-id="@opportunity.Id" class="btn btn-danger btn-sm">
-                    Delete
-                </a>
-            </td>
-        </tr>
-    }
+
+        @if (!Model.Opportunities.Any())
+        {
+            <tr>
+                <td colspan="6" class="text-center">
+                    No opportunities found.
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var opportunity in Model.Opportunities)
+            {
+                <tr>
+                    <td>@opportunity.Name</td>
+
+                    <td>@opportunity.Center?.Name</td>
+
+                    <td>
+                        @opportunity.StartDate.ToShortDateString()
+                    </td>
+
+                    <td>@opportunity.VolunteersNeeded</td>
+
+                    <td>
+                        @if (opportunity.IsActive)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit"
+                           asp-route-id="@opportunity.Id"
+                           class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+
+                        <a asp-action="Delete"
+                           asp-route-id="@opportunity.Id"
+                           class="btn btn-danger btn-sm">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+
     </tbody>
+
 </table>

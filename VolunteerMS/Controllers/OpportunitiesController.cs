@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VolunteerMS.Data;
 using VolunteerMS.Models;
+using VolunteerMS.Models.ViewModels.Opportunity;
 
 namespace VolunteerMS.Controllers;
 
@@ -15,13 +16,53 @@ public class OpportunitiesController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(
+        string? searchTerm,
+        bool recentOnly = false,
+        int? centerId = null)
     {
-        var opportunities = await _context.Opportunities
-            .Include(o => o.Center)
+        IQueryable<Opportunity> query = _context.Opportunities
+            .Include(o => o.Center);
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim().ToLower();
+
+            query = query.Where(o =>
+                o.Name.ToLower().Contains(searchTerm) ||
+                o.Description.ToLower().Contains(searchTerm));
+        }
+
+        if (recentOnly)
+        {
+            var sixtyDaysAgo = DateTime.UtcNow.AddDays(-60);
+
+            query = query.Where(o => o.CreatedDate >= sixtyDaysAgo);
+        }
+
+        if (centerId.HasValue)
+        {
+            query = query.Where(o => o.CenterId == centerId.Value);
+        }
+
+        var opportunities = await query
+            .OrderBy(o => o.StartDate)
             .ToListAsync();
 
-        return View(opportunities);
+        var centers = await _context.Centers
+            .OrderBy(c => c.Name)
+            .ToListAsync();
+
+        var model = new OpportunityIndexVM
+        {
+            SearchTerm = searchTerm,
+            RecentOnly = recentOnly,
+            CenterId = centerId,
+            Opportunities = opportunities,
+            Centers = new SelectList(centers, "Id", "Name", centerId)
+        };
+
+        return View(model);
     }
 
     public async Task<IActionResult> Create()
