@@ -193,4 +193,45 @@ public class OpportunitiesController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+
+    // Read-only: shows which volunteers are matched to this opportunity.
+    // (Assigning/removing matches happens on the volunteer side.)
+    public async Task<IActionResult> Matches(int id)
+    {
+        var opportunity = await _context.Opportunities
+            .Include(o => o.Center)
+            .Include(o => o.VolunteerOpportunities)
+                .ThenInclude(vo => vo.Volunteer)
+            .FirstOrDefaultAsync(o => o.Id == id);
+ 
+        if (opportunity == null)
+        {
+            return NotFound();
+        }
+ 
+        var model = new VolunteerMS.Models.ViewModels.Opportunity.OpportunityMatchesVM
+        {
+            OpportunityId = opportunity.Id,
+            OpportunityName = opportunity.Name,
+            CenterName = opportunity.Center?.Name ?? "—",
+            StartDate = opportunity.StartDate,
+            IsActive = opportunity.IsActive,
+            Volunteers = opportunity.VolunteerOpportunities
+                .Select(vo => new VolunteerMS.Models.ViewModels.Opportunity.MatchedVolunteerVM
+                {
+                    VolunteerId = vo.VolunteerId,
+                    FullName = $"{vo.Volunteer.FirstName} {vo.Volunteer.LastName}",
+                    Email = vo.Volunteer.Email,
+                    ApprovalStatus = vo.Volunteer.ApprovalStatus,
+                    IsActive = vo.Volunteer.IsActive,
+                    DateMatched = vo.DateMatched
+                })
+                .OrderBy(v => v.FullName)
+                .ToList()
+        };
+ 
+        return View(model);
+    }
+
 }

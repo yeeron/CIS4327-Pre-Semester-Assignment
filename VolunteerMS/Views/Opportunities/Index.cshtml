@@ -86,7 +86,7 @@
             <th>Start Date</th>
             <th>Needed</th>
             <th>Active</th>
-            <th style="width: 180px;">Actions</th>
+            <th style="width: 260px;">Actions</th>
         </tr>
     </thead>
 
@@ -127,6 +127,12 @@
                     </td>
 
                     <td>
+                        <a asp-action="Matches"
+                           asp-route-id="@opportunity.Id"
+                           class="btn btn-info btn-sm">
+                            Matches
+                        </a>
+ 
                         <a asp-action="Edit"
                            asp-route-id="@opportunity.Id"
                            class="btn btn-warning btn-sm">

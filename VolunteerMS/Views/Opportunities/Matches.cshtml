@@ -1,0 +1,89 @@
+@model VolunteerMS.Models.ViewModels.Opportunity.OpportunityMatchesVM
+
+@{
+    ViewData["Title"] = "Opportunity Matches";
+}
+
+<h2 class="mb-4">Matched Volunteers</h2>
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">@Model.OpportunityName</h5>
+            @if (Model.IsActive)
+            {
+                <span class="badge bg-success">Active</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Inactive</span>
+            }
+        </div>
+        <small class="text-muted">
+            Center: @Model.CenterName &nbsp;|&nbsp; Starts: @Model.StartDate.ToString("MMM dd, yyyy")
+        </small>
+    </div>
+
+    <div class="card-body">
+
+        @if (!Model.Volunteers.Any())
+        {
+            <div class="alert alert-info">
+                No volunteers are matched to this opportunity yet.
+            </div>
+        }
+        else
+        {
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Approval</th>
+                        <th>Status</th>
+                        <th>Matched On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var v in Model.Volunteers)
+                    {
+                        <tr>
+                            <td>@v.FullName</td>
+                            <td>@v.Email</td>
+                            <td>
+                                @switch (v.ApprovalStatus)
+                                {
+                                    case VolunteerMS.Models.ApprovalStatus.Approved:
+                                        <span class="badge bg-success">Approved</span>
+                                        break;
+                                    case VolunteerMS.Models.ApprovalStatus.Disapproved:
+                                        <span class="badge bg-danger">Disapproved</span>
+                                        break;
+                                    default:
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @if (v.IsActive)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Inactive</span>
+                                }
+                            </td>
+                            <td>@v.DateMatched.ToString("MMM dd, yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <a asp-action="Index" class="btn btn-secondary">Back to Opportunities</a>
+
+    </div>
+
+</div>
