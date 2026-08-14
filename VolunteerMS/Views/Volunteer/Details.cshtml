@@ -9,19 +9,25 @@
 <div class="card shadow-sm">
 
     <div class="card-header bg-primary text-white">
-        <h4 class="mb-0">@Model.FirstName @Model.LastName</h4>
+        <h4 class="mb-0">@Model.FirstName @Model.LastName
+            @if(Model.IsActive){
+                <span class="badge bg-success size-status-badge">Active</span>
+            }else{
+                <span class="badge bg-secondary size-status-badge">Inactive</span>
+            }
+        </h4>
     </div>
 
     <div class="card-body">
 
         <div class="row">
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Username</strong><br />
                 @Model.Username
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Approval Status</strong><br />
 
                 @switch (Model.ApprovalStatus)
@@ -40,27 +46,27 @@
                 }
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Email</strong><br />
                 @Model.Email
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Phone</strong><br />
                 @Model.CellPhone
             </div>
 
-            <div class="col-md-12 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Address</strong><br />
                 @Model.Address
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Education</strong><br />
                 @Model.EducationalBackground
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Availability</strong><br />
                 @Model.Availability
             </div>
@@ -73,22 +79,22 @@
 
         <div class="row">
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Name</strong><br />
                 @Model.EmergencyContactName
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Phone</strong><br />
                 @Model.EmergencyContactPhone
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Email</strong><br />
                 @Model.EmergencyContactEmail
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
                 <strong>Address</strong><br />
                 @Model.EmergencyContactAddress
             </div>

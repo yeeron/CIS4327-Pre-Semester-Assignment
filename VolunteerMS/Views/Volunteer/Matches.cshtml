@@ -4,12 +4,20 @@
     ViewData["Title"] = "Volunteer Opportunity Matches";
 }
 
-<h2 class="mb-4">Recommended Opportunities</h2>
+<h2 class="mb-4">Matched Opportunities</h2>
 
 <div class="card shadow-sm">
 
     <div class="card-header">
-        <h5 class="mb-0">@Model.VolunteerName</h5>
+        <h5 class="mb-0">@Model.VolunteerName
+            @if(Model.IsActive){
+                <span class="badge bg-success size-status-badge">Active</span>
+            }else{
+                <span class="badge bg-secondary size-status-badge">Inactive</span>
+            }
+        </h5>
+        <br />
+
         <small class="text-muted">
             The opportunities below match the volunteer's preferred centers.<br />
             Select the opportunities you want to assign.

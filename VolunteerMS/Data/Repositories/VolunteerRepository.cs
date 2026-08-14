@@ -95,6 +95,8 @@ public class VolunteerRepository : GenericRepository<Volunteer>, IVolunteerRepos
         return await _dbSet
             .Include(v => v.VolunteerCenters)
                 .ThenInclude(vc => vc.Center)
+            .Include(v => v.VolunteerOpportunities)
+                .ThenInclude(vo => vo.Opportunity)
             .FirstOrDefaultAsync(v => v.Id == id);
     }
 

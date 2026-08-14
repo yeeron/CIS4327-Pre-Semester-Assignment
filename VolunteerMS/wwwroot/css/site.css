@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.size-status-badge {
+    font-size: 0.65rem;
+    vertical-align: middle;
+}
