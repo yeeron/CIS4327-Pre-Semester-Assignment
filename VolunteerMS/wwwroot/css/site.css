@@ -21,7 +21,36 @@ body {
   margin-bottom: 60px;
 }
 
+/*Status Badge size*/
 .size-status-badge {
     font-size: 0.65rem;
     vertical-align: middle;
+}
+
+/*Main Navigation*/
+.navbar.bg-white .navbar-nav .nav-link {
+    color: #495057 !important;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+/* Navigation hover */
+.navbar.bg-white .navbar-nav .nav-link:hover {
+    color: #0d6efd !important;
+}
+
+/* Navbar brand */
+.navbar.bg-white .navbar-brand {
+    color: #084298 !important;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+/* Navbar brand hover */
+.navbar.bg-white .navbar-brand:hover {
+    color: #0d6efd !important;
+}
+
+.navbar .nav-item {
+    margin-right: 8px;
 }
