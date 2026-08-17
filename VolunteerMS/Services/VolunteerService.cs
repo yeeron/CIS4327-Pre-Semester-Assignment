@@ -203,6 +203,7 @@ public class VolunteerService : GenericService<Volunteer>, IVolunteerService
         {
             VolunteerId = volunteer.Id,
             VolunteerName = $"{volunteer.FirstName} {volunteer.LastName}",
+            IsActive = volunteer.IsActive,
             Opportunities = [.. opportunities.Select(o => new OpportunitySelectionVM
             {
                 OpportunityId = o.Id,
@@ -217,7 +218,6 @@ public class VolunteerService : GenericService<Volunteer>, IVolunteerService
 
         return model;
     }
-
     
     public async Task UpdateVolunteerSkillsAsync(VolunteerSkillsVM model)
     {
@@ -241,8 +241,7 @@ public class VolunteerService : GenericService<Volunteer>, IVolunteerService
         }
 
         await UnitOfWork.SaveChangesAsync();
-    }    
-
+    }
     
     public async Task UpdateVolunteerCentersAsync(VolunteerCentersVM model)
     {
@@ -254,6 +253,29 @@ public class VolunteerService : GenericService<Volunteer>, IVolunteerService
             return;
         }
 
+        // Centers currently selected by the user
+        var selectedCenterIds = model.Centers
+            .Where(c => c.Selected)
+            .Select(c => c.CenterId)
+            .ToHashSet();
+
+         // Find centers that are being removed
+        var removedCenterIds = volunteer.VolunteerCenters
+            .Select(vc => vc.CenterId)
+            .Where(centerId => !selectedCenterIds.Contains(centerId))
+            .ToHashSet();
+
+        // Remove matched opportunities that belong to removed centers
+        var opportunitiesToRemove = volunteer.VolunteerOpportunities
+            .Where(vo => removedCenterIds.Contains(vo.Opportunity.CenterId))
+            .ToList();
+
+        foreach (var opportunity in opportunitiesToRemove)
+        {
+            volunteer.VolunteerOpportunities.Remove(opportunity);
+        }
+
+        // Update centers
         volunteer.VolunteerCenters.Clear();
 
         foreach (var center in model.Centers.Where(c => c.Selected))

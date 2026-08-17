@@ -7,5 +7,6 @@ public class VolunteerDetailsVM : VolunteerBaseVM
     public DateTime RegistrationDate { get; set; }
     public List<string> Skills { get; set; } = new();
     public List<string> Centers { get; set; } = new();
+    public bool IsActive{get; set;}
     public List<string> Opportunities { get; set; } = new();
 }

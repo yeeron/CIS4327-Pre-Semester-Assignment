@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Volunteer MS</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/VolunteerMS.styles.css" asp-append-version="true" />
 </head>
@@ -12,38 +13,70 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VolunteerMS</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Volunteer Management System</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        
-                        <!--
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        -->
+                     
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <ul class="navbar-nav me-auto">
 
-
-                        @if (User.Identity?.IsAuthenticated == true)
-                        {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                <a class="nav-link" asp-controller="Dashboard" asp-action="Index">
+                                    📊 Dashboard
+                                </a>
                             </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                        }
 
-                    </ul>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Volunteer" asp-action="Index">
+                                    👥Volunteers
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Center" asp-action="Index">
+                                    🏢 Centers
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                asp-controller="Skill"
+                                asp-action="Index">
+                                    🛠 Skills
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                asp-controller="Opportunities"
+                                asp-action="Index">
+                                    📅 Opportunities
+                                </a>
+                            </li>
+
+                        </ul>
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="text-end">
+                                <div class="fw-semibold text-dark">
+                                    Welcome, @User.Identity.Name
+                                </div>
+                            </div>
+
+                            <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger btn-sm px-3">
+
+                                <i class="bi bi-box-arrow-right"></i>
+                                Logout
+
+                            </a>
+
+                        </div>
+                    }
                 </div>
             </div>
         </nav>

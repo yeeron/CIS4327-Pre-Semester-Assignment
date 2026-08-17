@@ -1,0 +1,113 @@
+@model VolunteerMS.Models.ViewModels.Opportunity.OpportunityMatchesVM
+
+@{
+    ViewData["Title"] = "Opportunity Matches";
+}
+
+<h2 class="mb-4">Matched Volunteers</h2>
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">@Model.OpportunityName
+                 @if (Model.IsActive)
+                {
+                    <span class="badge bg-success size-status-badge">Active</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary size-status-badge">Inactive</span>
+                }
+            </h5>
+            <br />
+           
+        </div>
+        <small class="text-muted">
+            Center: @Model.CenterName &nbsp;|&nbsp; Starts: @Model.StartDate.ToString("MMM dd, yyyy")
+        </small>
+    </div>
+
+    <div class="card-body">
+
+        @if (!Model.Volunteers.Any())
+        {
+            <div class="alert alert-info">
+                No volunteers are matched to this opportunity yet.
+            </div>
+        }
+        else
+        {
+            
+            @foreach (var v in Model.Volunteers)
+            {
+                <div class = "card mb-3 shadow-sm">
+                    <div class = "card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                @v.FullName
+                            </h5>
+
+                            @if (v.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <strong>Email</strong>                            
+                                <br />
+
+                                <span class="text-muted">
+                                    @v.Email
+                                </span>                        
+                            </div>
+
+                            <div class="col-md-4">
+                                <strong>Approval</strong>
+                                <br />
+
+                                <span class="text-muted">
+                                    @switch (v.ApprovalStatus)
+                                    {
+                                        case VolunteerMS.Models.ApprovalStatus.Approved:
+                                            <span class="badge bg-success">Approved</span>
+                                            break;
+                                        case VolunteerMS.Models.ApprovalStatus.Disapproved:
+                                            <span class="badge bg-danger">Disapproved</span>
+                                            break;
+                                        default:
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                            break;
+                                    }
+                                </span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <strong>Matched On</strong>                            
+                                <br />
+
+                                <span class="text-muted">
+                                    @v.DateMatched.ToString("MMM dd, yyyy")
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        }
+
+        <a asp-action="Index" class="btn btn-secondary">Back to Opportunities</a>
+
+    </div>
+
+</div>
